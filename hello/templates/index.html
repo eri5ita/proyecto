@@ -56,7 +56,6 @@
                             <p>{{ mision.descripcion }}</p>
                             <p><strong>Tipo:</strong> {{ mision.tipo }}</p>
                             <p><strong>Leafpoints:</strong> {{ mision.leafpoints }}</p>
-                            <button>✔</button>
                         </li>
                     {% endfor %}
                 </ul>
@@ -71,6 +70,7 @@
             <h2>Bienvenido a TrunGreen! En esta página puedes emprender un viaje para reducir tu huella de carbono.</p>
             <h1>¿Quieres entrar a tu cuenta?</h3>
             <a href="{% url 'login' %}">Iniciar Sesión</a>
+            <a href="{% url 'signup' %}">Registrarse</a>
         </div>
     {% endif %}
 

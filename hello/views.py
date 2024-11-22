@@ -1,26 +1,21 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from .models import misiones, recompensas
-import random
-from datetime import date, datetime
-from django.core.cache import cache
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.db import IntegrityError
+from .forms import CustomUserCreationForm
+
 
 # Homepage
 def index(request):
-    fecha_hoy = date.today()
-    tareas = cache.get('misiones_diarias')
-    
-    if not tareas or cache.get('ultima_fecha') != fecha_hoy:
-        tareas = list(misiones.objects.all())
-        tareas = random.sample(tareas, min(3, len(tareas)))
-        cache.set('misiones_diarias', tareas, 86400)
-        cache.set('ultima_fecha', fecha_hoy, 86400)
-        
+    tareas = misiones.objects.all()  # Obtén todas las misiones de la base de datos
+    return render(request, 'index.html', {'tareas': tareas})
+    # Verificar si el tema está activado en la sesión
     tema_activado = request.session.get('tema_activado', None)
-    
-    return render(request, 'index.html', {'tareas': tareas, 'tema_activado': tema_activado})
+    return render(request, 'index.html', {'tema_activado': tema_activado})
 
 # Tienda
 def tienda(request):
@@ -32,6 +27,29 @@ def tienda(request):
 def cuenta(request):
     tema_activado = request.session.get('tema_activado', False)
     return render(request, 'cuenta.html', {'tema_activado': tema_activado})
+
+# signup
+
+
+def signup(request):
+
+    if request.method == 'GET':
+        print('s')
+        return render (request, 'signup.html', {'form': UserCreationForm})
+        
+    else:
+        print('p')
+        if request.POST['password1'] == request.POST['password2']:
+            try: 
+                user = User.objects.create_user(username=request.POST['username'],
+                password=request.POST['password1'], email=request.POST['email'])
+                user.save()
+                return redirect('index')
+            except IntegrityError :
+                return HttpResponse('User ya existente')
+        return HttpResponse ('password do not match')
+   
+    
 
 # Login
 def user_login(request):
