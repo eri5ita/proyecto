@@ -18,7 +18,7 @@
         <img src="{% static '/logo.png' %}" alt="Logo de TurnGreen"
         width= '200'
         lenght= '60' />
-        <a href="#Leafpoints">0 Leafpoints</a>
+        <a><strong>Tus Leafpoints:</strong> {{total_leafpoints}}</a>
     </div>
     
     {% if user.is_authenticated %}
@@ -58,7 +58,7 @@
                             <p><strong>Leafpoints:</strong> {{ mision.leafpoints }}</p>
                             <form method="post" action="{% url 'completar_mision' mision.id %}">
                                 {% csrf_token %}
-                                <button type="submit">✔</button>
+                            <button type="submit">✔</button>
                             </form>
                         </li>
                     {% endfor %}
