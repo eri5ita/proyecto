@@ -56,6 +56,10 @@
                             <p>{{ mision.descripcion }}</p>
                             <p><strong>Tipo:</strong> {{ mision.tipo }}</p>
                             <p><strong>Leafpoints:</strong> {{ mision.leafpoints }}</p>
+                            <form method="post" action="{% url 'completar_mision' mision.id %}">
+                                {% csrf_token %}
+                                <button type="submit">✔</button>
+                            </form>
                         </li>
                     {% endfor %}
                 </ul>

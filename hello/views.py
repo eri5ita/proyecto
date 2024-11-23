@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, HttpRequest
@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from .forms import CustomUserCreationForm
+from django.contrib import messages
 
 
 # Homepage
@@ -86,6 +87,26 @@ def quitar_tema(request):
     if 'tema_activado' in request.session:
         del request.session['tema_activado']
     return redirect('tienda')  # Redirige a la página principal
+
+def completar_mision(request, mision_id):
+    # Buscar la misión por ID
+    mision = get_object_or_404(misiones, id=mision_id)
+
+    #Obtener el usuario actual
+    user = request.user
+    
+    # Verificar si el usuario tiene un registro de leafpoints asociado
+    usuario_leafpoints = user.usuarioleafpoints
+
+    # Sumar los leafpoints al usuario
+    usuario_leafpoints.total_leafpoints += mision.leafpoints
+    usuario_leafpoints.save()  # Guardar los cambios
+
+    # Mostrar un mensaje de éxito
+    messages.success(request, f"¡Has completado la misión '{mision.titulo}' y ganado {mision.leafpoints} leafpoints!")
+
+    # Redirigir de vuelta al listado de misiones
+    return redirect('index')  # O la URL que prefieras
 
 #def home(request):
     #return HttpResponse("Schmoll baby so cute!")
