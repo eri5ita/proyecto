@@ -1,0 +1,128 @@
+body{
+  background-color: #F1F4F2;
+}
+
+@font-face{
+  font-family: myFont;
+  src:url(pix.ttf)
+}
+
+.sidenav {
+  display: none;
+  height: 100%;
+  width: 200px;
+  position: absolute;
+  z-index: 1;
+  top: 10;
+  left: 0;
+  background-color: #CFFBD8;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 15px 16px;
+  text-decoration: none;
+  font-size: 30px;
+  color: black;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #25995C;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.main {  
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 30px; /* Increased text to enable scrolling */
+  padding: 5px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #9AE9A9;
+}
+
+.topnav a {
+  float: right;
+  color: #000000;
+  text-align: right;
+  padding: 40px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #9AE9A9;
+  color: #04AA6D;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+#rcorners1 {
+  margin-left: 35px;  
+  border-radius: 15px;
+  background: #545454;
+  padding: 10px; 
+  width: 100px;
+  height: 18px;
+  position:static;
+  font-size: 20px;
+}
+
+button{
+  border-radius: 80%;
+  align-items: center;
+  background-color: #04AA6D;
+}
+
+p,h2{
+  text-align: center;
+}
+
+h2{
+  font-family: myFont;
+}
+
+h1{
+  font-family: myFont;
+}
+
+.container{
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+header .container{
+  display: flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+#misiones{
+  background-color: #D9D9D9;
+  margin-right: 140px;
+  margin-left: 240px;
+}
