@@ -48,4 +48,17 @@ class recompensas(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     costo_lp = models.IntegerField()
-    
+
+    def __str__(self):
+        return self.title
+
+class RecompensaComprada(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recompensas_compradas")
+    recompensa = models.ForeignKey(recompensas, on_delete=models.CASCADE, related_name="compras")
+    comprada = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('usuario', 'recompensa')  # Evita duplicados para una misma recompensa, usuario y misión
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.recompensa.title}"

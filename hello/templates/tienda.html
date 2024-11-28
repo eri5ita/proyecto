@@ -49,18 +49,30 @@
 
     <section id="agua">
         <div class="container">
-            <h3>🐬ESTILO ACUÁTICO🐬</h3>
+            <h3>🐬Tema Acuático🐬</h3>
             <img src="{% static '/agua.png' %}" alt="Estilo acuático"
             width= '600'
             lenght= '1800' />
-        <button id="compraragua">COMPRAR</button>
+            <p>Estado de comprada: {{ recompensa.comprada }}</p>
+            {% if comprada %}
+                <a href="{% url 'activar_tema_a' %}">
+                    <button>Activar</button>
+                </a>
+            {% else %}
+                <form method="post" action="{% url 'canjear_recompensa' 3 %}">
+                    {% csrf_token %}
+                <button id="compraragua">70 LP</button>
+            {% endif %}
+            </form>
         </div>
         <div class="container">
-            <h3>🌃ESTILO OSCURO🌃</h3>
+            <h3>🌃Tema Oscuro🌃</h3>
             <img src="{% static '/oscuro.png' %}" alt="Estilo oscuro"
             width= '600'
             lenght= '1800' />
-            <p>GRATIS!</p>
+            <a href="{% url 'activar_tema_o' %}">
+                <button>Activar</button>
+            </a>
             {% if tema_activado == 'tema_a' %}
                 <p style="font-size: 30px;">El tema AGUA está activado.</p>
                 <a href="{% url 'quitar_tema' %}">
@@ -73,17 +85,10 @@
                 </a>
             {% else %}
                 <p style="font-size: 20px;">Ningún tema está activado.</p>
-                <a href="{% url 'activar_tema_a' %}">
-                    <button>Activar Tema AGUA</button>
-                </a>
-                <a href="{% url 'activar_tema_o' %}">
-                    <button>Activar Tema OSCURO</button>
-                </a>
             {% endif %}
         </div>
     </section>
     <main>
-        <h2>Productos Disponibles</h2>
         <div class="product-list">
             {% for product in products %}
             <div class="product-item">
@@ -95,12 +100,8 @@
             {% endfor %}
         </div>
     </main>
-    <div> 
-        <button>Comprar</button>
-    </div>
     <footer>
-        <p>&copy; 2024 Tu Tienda</p>
+        <p></p>
     </footer>
-    <script src="{% static 'js/cart.js' %}"></script>
 </body>
 </html>

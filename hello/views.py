@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, HttpRequest
-from .models import misiones, recompensas, mision_completada
+from .models import misiones, recompensas, mision_completada, UsuarioLeafpoints, RecompensaComprada
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -12,7 +12,7 @@ from django.contrib import messages
 
 # Homepage
 def index(request):
-    if request. user.is_authenticated:   
+    if request.user.is_authenticated:   
         tareas=misiones.objects.all()
         misiones_c = mision_completada.objects.filter(usuario=request.user, completada=True).values_list('mision', flat=True)
         misiones_d = tareas.exclude(id__in=misiones_c)
@@ -120,6 +120,41 @@ def completar_mision(request, mision_id):
 
     # Redirigir de vuelta al listado de misiones
     return redirect('index')  # O la URL que prefieras
+
+def canjear_recompensa(request, recompensa_id):
+    # Obtener la recompensa
+    recompensa = get_object_or_404(recompensas, id=recompensa_id)
+    usuario = request.user
+    
+    #Obtener el usuario actual
+    user = request.user
+    
+    # Verificar si el usuario tiene un registro de leafpoints asociado
+    usuario_leafpoints = user.usuarioleafpoints
+    
+    if usuario_leafpoints.total_leafpoints >= recompensa.costo_lp:
+        # Descontar los LeafPoints del usuario
+        usuario_leafpoints.total_leafpoints -= recompensa.costo_lp
+        usuario_leafpoints.save()
+
+        # Registrar el canje en RecompensaComprada
+        RecompensaComprada.objects.create(
+            usuario=usuario,
+            recompensa=recompensa,
+            comprada=True
+        )
+        
+    return redirect('tienda')
+        
+def info_recompensas(request):
+    # Ejemplo de cómo determinar si una recompensa ya está comprada
+    usuario = request.user  # Usuario actual
+    recompensa_id = 3  # ID de la recompensa (puede ser dinámico)
+    comprada = True
+    
+    print(f"Usuario: {usuario}, Comprada: {comprada}")
+    return render(request, 'tienda.html', {'comprada': comprada})
+    
 
 #def home(request):
     #return HttpResponse("Schmoll baby so cute!")
