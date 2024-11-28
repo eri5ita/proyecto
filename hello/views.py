@@ -12,12 +12,22 @@ from django.contrib import messages
 
 # Homepage
 def index(request):
-    if request.user.is_authenticated:   
+    if request.user.is_authenticated:  
+        # Para mostrar misiones
         tareas=misiones.objects.all()
         misiones_c = mision_completada.objects.filter(usuario=request.user, completada=True).values_list('mision', flat=True)
         misiones_d = tareas.exclude(id__in=misiones_c)
+        
+        # Para controlar temas
         tema_activado = request.session.get('tema_activado', None)
-        return render(request, 'index.html', {'tareas': misiones_d, 'tema_activado':tema_activado})
+        
+        #Obtener el usuario actual
+        user = request.user
+        # Verificar si el usuario tiene un registro de leafpoints asociado
+        usuario_leafpoints = user.usuarioleafpoints
+        leafpoints = usuario_leafpoints.total_leafpoints
+        
+        return render(request, 'index.html', {'tareas': misiones_d, 'tema_activado':tema_activado, 'leafpoints':leafpoints})
     else:
         return redirect('login')
 
@@ -28,12 +38,22 @@ def tienda(request):
     usuario = request.user  # Usuario actual
     recompensa_id = 3  # ID fijo para esta recompensa (ajústalo si es dinámico)
     comprada = RecompensaComprada.objects.filter(usuario=usuario, recompensa_id=recompensa_id).exists()
-    return render(request, 'tienda.html', {'tema_activado': tema_activado, 'productos': productos, 'comprada': comprada})
+    #Obtener el usuario actual
+    user = request.user
+    # Verificar si el usuario tiene un registro de leafpoints asociado
+    usuario_leafpoints = user.usuarioleafpoints
+    leafpoints = usuario_leafpoints.total_leafpoints
+    return render(request, 'tienda.html', {'tema_activado': tema_activado, 'productos': productos, 'comprada': comprada, 'leafpoints':leafpoints})
 
 # Mi cuenta
 def cuenta(request):
     tema_activado = request.session.get('tema_activado', False)
-    return render(request, 'cuenta.html', {'tema_activado': tema_activado})
+    #Obtener el usuario actual
+    user = request.user
+    # Verificar si el usuario tiene un registro de leafpoints asociado
+    usuario_leafpoints = user.usuarioleafpoints
+    leafpoints = usuario_leafpoints.total_leafpoints
+    return render(request, 'cuenta.html', {'tema_activado': tema_activado, 'leafpoints': leafpoints})
 
 # signup
 
