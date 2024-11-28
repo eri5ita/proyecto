@@ -32,5 +32,4 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('completar_mision/<int:mision_id>/', views.completar_mision, name='completar_mision'),
     path('canjear_recompensa/<int:recompensa_id>/', views.canjear_recompensa, name='canjear_recompensa'),
-    path('Tienda/', views.info_recompensas, name = 'info_recompensas'),
 ]

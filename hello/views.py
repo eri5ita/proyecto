@@ -25,7 +25,10 @@ def index(request):
 def tienda(request):
     tema_activado = request.session.get('tema_activado', None)
     productos = ['Producto 1', 'Producto 2', 'Producto 3']
-    return render(request, 'tienda.html', {'tema_activado': tema_activado, 'productos': productos})
+    usuario = request.user  # Usuario actual
+    recompensa_id = 3  # ID fijo para esta recompensa (ajústalo si es dinámico)
+    comprada = RecompensaComprada.objects.filter(usuario=usuario, recompensa_id=recompensa_id).exists()
+    return render(request, 'tienda.html', {'tema_activado': tema_activado, 'productos': productos, 'comprada': comprada})
 
 # Mi cuenta
 def cuenta(request):
@@ -145,15 +148,6 @@ def canjear_recompensa(request, recompensa_id):
         )
         
     return redirect('tienda')
-        
-def info_recompensas(request):
-    # Ejemplo de cómo determinar si una recompensa ya está comprada
-    usuario = request.user  # Usuario actual
-    recompensa_id = 3  # ID de la recompensa (puede ser dinámico)
-    comprada = True
-    
-    print(f"Usuario: {usuario}, Comprada: {comprada}")
-    return render(request, 'tienda.html', {'comprada': comprada})
     
 
 #def home(request):

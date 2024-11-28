@@ -53,8 +53,11 @@
             <img src="{% static '/agua.png' %}" alt="Estilo acuático"
             width= '600'
             lenght= '1800' />
-            <p>Estado de comprada: {{ recompensa.comprada }}</p>
-            {% if comprada %}
+            {% if tema_activado == 'tema_a' %}
+                <a href="{% url 'quitar_tema' %}">
+                    <button>Desactivar</button>
+                </a>
+            {% elif comprada %}
                 <a href="{% url 'activar_tema_a' %}">
                     <button>Activar</button>
                 </a>
@@ -70,21 +73,14 @@
             <img src="{% static '/oscuro.png' %}" alt="Estilo oscuro"
             width= '600'
             lenght= '1800' />
-            <a href="{% url 'activar_tema_o' %}">
-                <button>Activar</button>
-            </a>
-            {% if tema_activado == 'tema_a' %}
-                <p style="font-size: 30px;">El tema AGUA está activado.</p>
+            {% if tema_activado == 'tema_o' %}
                 <a href="{% url 'quitar_tema' %}">
-                    <button>Quitar el tema</button>
-                </a>
-            {% elif tema_activado == 'tema_o' %}
-                <p style="font-size: 30px;">El Tema OSCURO está activado.</p>
-                <a href="{% url 'quitar_tema' %}">
-                    <button>Quitar el tema</button>
+                    <button>Desactivar</button>
                 </a>
             {% else %}
-                <p style="font-size: 20px;">Ningún tema está activado.</p>
+                <a href="{% url 'activar_tema_o' %}">
+                    <button>Activar</button>
+                </a>
             {% endif %}
         </div>
     </section>
