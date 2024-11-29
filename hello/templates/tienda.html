@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    {% if tema_activado == 'tema_a' %}
+        <link rel="stylesheet" href="{% static 'styles/aqua.css' %}">
+    {% elif tema_activado == 'tema_o' %}
+        <link rel="stylesheet" href="{% static 'styles/oscuro.css' %}">
+    {% endif %}
+</head>
+<body>
+    <header>
+        </div>
+            <div class="topnav">
+            <img src="{% static '/logo.png' %}" alt="Logo de TurnGreen"
+            width= '200'
+            lenght= '60' />
+            <a href="{% url 'logout' %}">| Cerrar Sesión</a>
+            <a><strong>Leafpoints: 🪙</strong> {{leafpoints}}</a>
+        </div>
+
+    </header>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)"
+    class="closebtn"
+    onclick="closeNav()">&times;</a>
+        <p style="color:white;"id="rcorners1">OPCIONES</p>
+        <a href="{% url 'index' %}">Inicio←</a>
+        <a href="{% url 'micuenta' %}">Mi huella←</a>
+    </div>
+
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; OPCIONES</span>
+
+    <script>
+    function openNav() {
+        document.getElementById("mySidenav").style.display = "block";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.display = "none";
+    }
+    </script>
+
+    <h1 style="text-align: center;">Tienda</h1>
+    <section id="agua">
+        <div class="container">
+            <h3>🐬Tema Acuático🐬</h3>
+            <img src="{% static '/agua.png' %}" alt="Estilo acuático"
+            width= '600'
+            lenght= '1800' />
+            {% if tema_activado == 'tema_a' %}
+                <a href="{% url 'quitar_tema' %}">
+                    <button>Desactivar</button>
+                </a>
+            {% elif comprada %}
+                <a href="{% url 'activar_tema_a' %}">
+                    <button>Activar</button>
+                </a>
+            {% else %}
+                <form method="post" action="{% url 'canjear_recompensa' 3 %}">
+                    {% csrf_token %}
+                <button id="compraragua">70 LP</button>
+            {% endif %}
+            </form>
+        </div>
+        <div class="container">
+            <h3>🌃Tema Oscuro🌃</h3>
+            <img src="{% static '/oscuro.png' %}" alt="Estilo oscuro"
+            width= '600'
+            lenght= '1800' />
+            {% if tema_activado == 'tema_o' %}
+                <a href="{% url 'quitar_tema' %}">
+                    <button>Desactivar</button>
+                </a>
+            {% else %}
+                <a href="{% url 'activar_tema_o' %}">
+                    <button>Activar</button>
+                </a>
+            {% endif %}
+        </div>
+    </section>
+    <main>
+        <div class="product-list">
+            {% for product in products %}
+            <div class="product-item">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <p>Precio: ${{ product.price }}</p>
+                <button type="button" onclick="addToCart('{{ product.id }}')">Agregar al Carrito</button>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+    <footer>
+        <p></p>
+    </footer>
+</body>
+</html>

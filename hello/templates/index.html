@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Turn Green</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    {% if tema_activado == 'tema_a' %}
+        <link rel="stylesheet" href="{% static 'styles/aqua.css' %}">
+    {% elif tema_activado == 'tema_o' %}
+        <link rel="stylesheet" href="{% static 'styles/oscuro.css' %}">
+    {% endif %}
+
+</head>
+<body>
+    </div>
+        <div class="topnav">
+        <img src="{% static '/logo.png' %}" alt="Logo de TurnGreen"
+        width= '200'
+        lenght= '60' />
+        <a href="{% url 'logout' %}">| Cerrar Sesión</a>
+        <a><strong>Leafpoints: 🪙</strong> {{leafpoints}}</a>
+    </div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)"
+    class="closebtn"
+    onclick="closeNav()">&times;</a>
+        <p style="color:white;"id="rcorners1">OPCIONES</p>
+        <a href="{% url 'micuenta' %}">Mi huella←</a>
+        <a href="{% url 'tienda' %}">Tienda←</a>
+    </div>
+
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; OPCIONES</span>
+
+    <script>
+    function openNav() {
+        document.getElementById("mySidenav").style.display = "block";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.display = "none";
+    }
+    </script>
+    
+    <p>Hola, {{ user.username }}!</p>
+    <! Ciclo para mostrar las misiones de la base de datos /!>
+    <h1>Misiones</h1>
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if tareas %}
+            <ul>
+                {% for mision in tareas %}
+                    <li>
+                        <h2>{{ mision.titulo }}</h2>
+                        <p>{{ mision.descripcion }}</p>
+                        <p><strong>Leafpoints:</strong> {{ mision.leafpoints }}</p>
+                        <form method="post" action="{% url 'completar_mision' mision.id %}">
+                            {% csrf_token %}
+                        <button type="submit">✔</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <li>No hay misiones disponibles en este momento. ¡Vuelve pronto para más desafíos ecológicos!</li>
+        {% endif %}
+    
+    <! Termina el ciclo /!>
+
+</body>
+</html>

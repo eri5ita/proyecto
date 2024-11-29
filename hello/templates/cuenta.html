@@ -1,0 +1,54 @@
+<!-- carbon_calculator/templates/carbon_calculator/footprint.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Carbon Footprint</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    {% if tema_activado == 'tema_a' %}
+        <link rel="stylesheet" href="{% static 'styles/aqua.css' %}">
+    {% elif tema_activado == 'tema_o' %}
+        <link rel="stylesheet" href="{% static 'styles/oscuro.css' %}">
+    {% endif %}
+
+    </div>
+    <div class="topnav">
+    <img src="{% static '/logo.png' %}" alt="Logo de TurnGreen"
+    width= '200'
+    lenght= '60' />
+    <a href="{% url 'logout' %}">| Cerrar Sesión</a>
+    <a><strong>Leafpoints: 🪙</strong> {{leafpoints}}</a>
+    </div>
+</head>
+<body>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)"
+    class="closebtn"
+    onclick="closeNav()">&times;</a>
+        <p style="color:white;"id="rcorners1">OPCIONES</p>
+        <a href="{% url 'index' %}">Inicio←</a>
+        <a href="{% url 'tienda' %}">Tienda←</a>
+    </div>
+
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; OPCIONES</span>
+
+    <script>
+    function openNav() {
+        document.getElementById("mySidenav").style.display = "block";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.display = "none";
+    }
+    </script>
+
+    <section id="calculadora">
+        <div class="container">
+            <h1 style=" text-align: center;">Calcula tu huella de carbono!</h1>
+            <h2>¿Cómo funciona?</h2>
+            <p style="font-size: 20px;">Tienes distitnas categorías de consumo, donde deberás ingresar datos tanto cualitatios como cuantitativos, principalmente. Puedes obtenerla para una o las categorías que quieras. Pruébala!</p>
+            <iframe width="710" height="1300" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" src="https://calculator.carbonfootprint.com/calculator.aspx"></iframe>
+        </div>
+</body>
+</html>

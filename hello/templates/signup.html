@@ -1,0 +1,97 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e1f8e1;
+            text-align: center;
+        }
+        .form-container {
+            width: 400px; /* Hacemos el formulario más ancho */
+            text-align: left;
+            background: white;
+            border: 2px solid #8fd19e;
+            padding: 25px; /* Aumentamos el espacio interno */
+            border-radius: 10px;
+            margin: auto;
+            margin-top: 20px; /* Más separación arriba */
+        }
+        .form-container label {
+            font-size: 1rem; /* Texto ligeramente más grande */
+            display: block;
+            margin-bottom: 8px;
+        }
+        .form-container input {
+            width: 95%;
+            padding: 12px; /* Aumentamos el padding */
+            margin-bottom: 15px;
+            border: 1px solid #4b8859;
+            border-radius: 5px;
+        }
+        .form-container input:focus {
+            outline: 2px solid #296b38;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .button-container button {
+            padding: 12px 20px; /* Botones más grandes */
+            font-size: 1.1rem; /* Texto de botón más grande */
+            border: none;
+            border-radius: 5px;
+            background-color: #337542;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button-container button:hover {
+            background-color: #163b1f;
+        }
+        .header {
+            font-size: 5rem; /* Hacemos el encabezado más grande */
+            margin-bottom: 40px; /* Espacio más amplio debajo del encabezado */
+        }
+        .header span {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        TURN <span>GREEN</span>
+    </div>
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div>
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+            </div>
+            <div>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password1" name="password1" placeholder="Contraseña" required>
+            </div>
+            <div>
+                <label for="password2">Confirmar contraseña:</label>
+                <input type="password" id="password2" name="password2" placeholder="Confirmar contraseña" required>
+            </div>
+            <div class="button-container">
+                <button type="submit">Registrarse</button>
+                <button type="button" onclick="window.location='/'">Volver</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
